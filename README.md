@@ -66,3 +66,54 @@ in `planning.json`, which contains around 10k records.
 
 For any additional questions on the task please feel free to email
 `sundara.amancharla@aspaara.com`.
+
+
+## Assignment submission
+
+- There are two endpoints implemented. One is simple - to get data by id. Another complex to get multiple results, which are sorted, filtered etc.
+- By the look of the source data provided it seems like other tables may be created for talent, job manager, client etc. I decided to keep the database structure flat - corresponding to data model above as I was not sure whether this should be part of the task.
+- I've not worked with FastAPI before - I have experience with Flask, so the implementation is probably more in a "Flask" way than in "FastAPI" way.
+- Database is accessed through SQLAlchemy with Alembic versioning
+- Source code is formatted by black
+
+## Set up and run
+Required python version >3.10 - due to type hints for FastAPI
+
+1) Create virtual environment
+   - `python -m virtualenv .venv`
+2) install required packages
+   - `pip install -Ur requirements.txt`
+3) Set up DB
+   - `alembic upgrade head`
+4) Import data from JSON file
+   - `python migrate.py`
+5) Run app
+   - `uvicorn api_app.main:app --reload`
+
+### Examples
+- Get single entry by id
+  - `http://127.0.0.1:8000/v1/entries/`
+
+- Get multiple entries, second page, with changed page size to 40 (default is 10)
+  - `http://127.0.0.1:8000/v1/entries/?page=2&page_size=40`
+
+- Filter by clients name, only newer than 2023-01-01
+  - `http://127.0.0.1:8000/v1/entries/?client_name=ruppert&date_from=2023-01-01`
+
+- Sort by entries starting furthest in the future
+  - `http://127.0.0.1:8000/v1/entries/?order_by=start_date&descending=True`
+
+- Return only entries with specific skill
+  - `127.0.0.1:8000/v1/entries/?required_skills=javascript`
+
+- Don't query skills (query speed up)
+  - `http://127.0.0.1:8000/v1/entries/?omit_skills=True`
+
+
+### NICE TO HAVE - but not really required
+- check JSON input data
+- proper project structure
+- tests
+- .env with configuration for database etc.
+- wrap in docker image
+- flake8
