@@ -110,7 +110,7 @@ Required python version >3.10 - due to type hints for FastAPI
   - `http://127.0.0.1:8000/v1/entries/?omit_skills=True`
 
 
-### NICE TO HAVE - but not really required
+### NICE TO HAVE - but not really in requirements
 - check JSON input data
 - proper project structure
 - tests
